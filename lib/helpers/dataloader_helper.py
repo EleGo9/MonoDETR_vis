@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from torch.utils.data import DataLoader
 from lib.datasets.kitti.kitti_dataset import KITTI_Dataset
+from lib.datasets.kitti.indy_dataset import INDY_Dataset
 
 
 # init datasets and dataloaders
@@ -14,6 +15,20 @@ def build_dataloader(cfg, workers=4):
     if cfg['type'] == 'KITTI':
         train_set = KITTI_Dataset(split=cfg['train_split'], cfg=cfg)
         test_set = KITTI_Dataset(split=cfg['test_split'], cfg=cfg)
+    elif cfg['type'] == 'INDY':
+        train_sets = []
+        test_sets = []
+        root_dirs_train = cfg['root_dir_train']
+        for root_dir in root_dirs:
+            train_sets.append(INDY_Dataset(split=cfg['train_split'], cfg=cfg, root_dir=root_dir))
+            print('training: ', root_dir)
+        root_dirs_test = cfg['root_dir_test']
+        for root_dir_test in root_dirs_test:
+            test_sets.append(INDY_Dataset(split=cfg['test_split'], cfg=cfg, root_dir = root_dir_test))
+            print('test: ', root_dir_test)
+
+        train_set = torch.utils.data.ConcatDataset(train_sets)
+        test_set = torch.utils.data.ConcatDataset(test_sets)
     else:
         raise NotImplementedError("%s dataset is not supported" % cfg['type'])
 

@@ -7,6 +7,9 @@ from lib.helpers.save_helper import load_checkpoint
 from lib.helpers.decode_helper import extract_dets_from_outputs
 from lib.helpers.decode_helper import decode_detections
 import time
+from utils import misc
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 class Tester(object):
@@ -100,7 +103,7 @@ class Tester(object):
             results.update(dets)
             progress_bar.update()
 
-        print("inference on {} images by {}/per image".format(
+        print("inference on {} images by {}/per image batch".format(
             len(self.dataloader), model_infer_time / len(self.dataloader)))
 
         progress_bar.close()
@@ -115,6 +118,8 @@ class Tester(object):
 
         for img_id in results.keys():
             if self.dataset_type == 'KITTI':
+                output_path = os.path.join(output_dir, '{:06d}.txt'.format(img_id))
+            elif self.dataset_type == 'INDY':
                 output_path = os.path.join(output_dir, '{:06d}.txt'.format(img_id))
             else:
                 os.makedirs(os.path.join(output_dir, self.dataloader.dataset.get_sensor_modality(img_id)), exist_ok=True)

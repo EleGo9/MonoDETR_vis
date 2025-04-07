@@ -40,6 +40,7 @@ class Trainer(object):
         self.model_name = model_name
         self.output_dir = os.path.join('./' + cfg['save_path'], model_name)
         self.tester = None
+        self.training_losses = []
 
         # loading pretrain/resume model
         if cfg.get('pretrain_model'):
@@ -74,6 +75,12 @@ class Trainer(object):
             np.random.seed(np.random.get_state()[1][0] + epoch)
             # train one epoch
             self.train_one_epoch(epoch)
+            if self.epoch==0:
+                ckpt_name = os.path.join(self.output_dir, 'checkpoint_best')
+                save_checkpoint(
+                            get_checkpoint_state(self.model, self.optimizer, self.epoch, best_result, best_epoch),
+                            ckpt_name)
+                print('saved first ckpt', ckpt_name)
             self.epoch += 1
 
             # update learning rate
@@ -150,6 +157,7 @@ class Trainer(object):
                     detr_losses_dict_log[k] = (detr_losses_dict[k] * weight_dict[k]).item()
                     detr_losses_log += detr_losses_dict_log[k]
             detr_losses_dict_log["loss_detr"] = detr_losses_log
+            training_loss.append(detr_losses_log)
 
             flags = [True] * 5
             if batch_idx % 30 == 0:
@@ -170,6 +178,7 @@ class Trainer(object):
             self.optimizer.step()
 
             progress_bar.update()
+        self.training_losses.append(np.mean(training_loss))
         progress_bar.close()
 
     def prepare_targets(self, targets, batch_size):
