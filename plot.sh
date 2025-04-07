@@ -1,0 +1,1 @@
+python plot/plot_qualitative_output.py --dataset indy --folder outputs/monodetr_indy_polimove2_fr_fl/outputs/data --gt_folder /media/franco/hdd/dataset/dataset_3d/20250105_lvms_run02_multi_polimove/camera_fl_cropped
