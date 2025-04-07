@@ -1,7 +1,9 @@
 # MonoDETR: Depth-guided Transformer for Monocular 3D Object Detection
-Official implementation of ['MonoDETR: Depth-guided Transformer for Monocular 3D Object Detection'](https://arxiv.org/pdf/2203.13310.pdf).
-
-The paper has been accepted by **ICCV 2023** 🎉.
+Implementation of ['MonoDETR: Depth-guided Transformer for Monocular 3D Object Detection'](https://arxiv.org/pdf/2203.13310.pdf).
+In addition to the original repository, this one provides:
+- visualization tools for results;
+- demo code;
+- onnx exportation code.
 
 ## News
 * **[2023-08]** A ***More Stable Version*** 🌟 of MonoDETR on KITTI is now released! 🔥🔥🔥
