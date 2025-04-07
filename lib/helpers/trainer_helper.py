@@ -42,6 +42,7 @@ class Trainer(object):
         self.tester = None
         self.training_losses = []
 
+
         # loading pretrain/resume model
         if cfg.get('pretrain_model'):
             assert os.path.exists(cfg['pretrain_model'])
@@ -124,7 +125,8 @@ class Trainer(object):
         torch.set_grad_enabled(True)
         self.model.train()
         print(">>>>>>> Epoch:", str(epoch) + ":")
-
+        training_loss = []
+        
         progress_bar = tqdm.tqdm(total=len(self.train_loader), leave=(self.epoch+1 == self.cfg['max_epoch']), desc='iters')
         for batch_idx, (inputs, calibs, targets, info) in enumerate(self.train_loader):
             inputs = inputs.to(self.device)

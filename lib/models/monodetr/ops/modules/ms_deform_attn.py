@@ -32,7 +32,7 @@ from typing import Tuple, Optional
 import torch
 from torch import Tensor
 if float(torch.__version__.split('.')[0]) == 0 or (float(torch.__version__.split('.')[0]) == 1 and float(torch.__version__.split('.')[1])) < 9:
-    from torch.nn.modules.linear import _LinearWithBias
+    from torch.nn import Linear as _LinearWithBias
 else:
     from torch.nn.modules.linear import NonDynamicallyQuantizableLinear as _LinearWithBias
 from torch.nn.init import xavier_uniform_
@@ -53,7 +53,7 @@ from torch.nn import grad
 from torch import _VF
 from torch._jit_internal import boolean_dispatch, List, Optional, _overload, Tuple
 if float(torch.__version__.split('.')[0]) == 0 or (float(torch.__version__.split('.')[0]) == 1 and float(torch.__version__.split('.')[1])) < 7:
-    from torch._overrides import has_torch_function, handle_torch_function
+    from torch.overrides import has_torch_function, handle_torch_function
 else:
     from torch.overrides import has_torch_function, handle_torch_function
 Tensor = torch.Tensor

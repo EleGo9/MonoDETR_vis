@@ -15,7 +15,7 @@ from lib.datasets.kitti.kitti_utils import affine_transform
 from lib.datasets.kitti.indy_eval_python.eval import get_official_eval_result
 from lib.datasets.kitti.indy_eval_python.eval import get_distance_eval_result
 import lib.datasets.kitti.indy_eval_python.indy_common as indy
-from lib.datasets.utils import box3d_to_corners, draw_projected_box3d
+# from lib.datasets.utils import box3d_to_corners, draw_projected_box3d
 import copy
 from .pd import PhotometricDistort
 
