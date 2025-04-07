@@ -21,11 +21,14 @@ from lib.helpers.trainer_helper import Trainer
 from lib.helpers.tester_helper import Tester
 from lib.helpers.utils_helper import create_logger
 from lib.helpers.utils_helper import set_random_seed
+from matplotlib import pyplot as plt
+import numpy as np
 
 
 parser = argparse.ArgumentParser(description='Depth-aware Transformer for Monocular 3D Object Detection')
 parser.add_argument('--config', dest='config', help='settings of detection in yaml format')
 parser.add_argument('-e', '--evaluate_only', action='store_true', default=False, help='evaluation only')
+parser.add_argument('--save', default='save_plot.png')
 args = parser.parse_args()
 
 
@@ -95,6 +98,18 @@ def main():
     logger.info('Learning Rate: %f' % (cfg['optimizer']['lr']))
 
     trainer.train()
+
+    plt.figure(figsize=(10, 6))
+    epochs = np.arange(1, len(trainer.training_losses) + 1)
+    plt.plot(epochs, trainer.training_losses, 'b-', linewidth=2, marker='o', markersize=4)
+    plt.title('Losses per Epoch', fontsize=14)
+    plt.xlabel('Epoch Number', fontsize=12)
+    plt.ylabel('Loss Values', fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    save_path = args.save
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    print(f"Plot saved to {save_path}")
+
 
     if cfg['dataset']['test_split'] == 'test':
         return
